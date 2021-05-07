@@ -25,6 +25,7 @@ class Modal extends Component{
         if (e.currentTarget === e.target) {
             this.props.onClose();
         }
+        
     }
 
     render() {
@@ -33,7 +34,7 @@ class Modal extends Component{
             
              <div className={Style.Overlay} onClick={this.handleDropClick}>
                 <div className={Style.Modal}>
-                    <img src={this.props.image} alt="" />
+                    <img src='' alt="" />
                 </div>
             </div>
         ,modalRef,)

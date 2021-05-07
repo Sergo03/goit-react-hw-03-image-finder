@@ -14,7 +14,7 @@ class App extends Component {
     currentPage: 1,
     searchQuery: '',
     isLoading: false,
-    largeImageURL: '',
+    selectedImg: '',
     showModal:false,
   }
 
@@ -32,7 +32,7 @@ class App extends Component {
 
   fetchImages = () => {
     const { currentPage, searchQuery } = this.state
-    this.setState({isLoading:true})
+    this.setState({ isLoading: true })
     axios
       .get(`https://pixabay.com/api/?q=${searchQuery}&page=${currentPage}&key=20704457-b02886aee8bbd15c3245ed4eb&image_type=photo&orientation=horizontal&per_page=12`)
       .then(res => {
@@ -43,7 +43,8 @@ class App extends Component {
             
           }))
         
-        res.data.hits.map(({ largeImageURL }) => this.setState({ largeImageURL:largeImageURL}));}).finally(() => this.setState({isLoading:false}))
+        // res.data.hits.map(({ largeImageURL }) => this.setState({ largeImageURL: largeImageURL }));
+      }).finally(() => this.setState({ isLoading: false }))
     
     // setTimeout(() => {
     //   window.scrollTo({
@@ -53,21 +54,21 @@ class App extends Component {
     // }, 800)
   }
   toggleModal = () => {
-    this.setState(state => ({ showModal: !state.showModal,}))
+    this.setState(state => ({ showModal: !state.showModal, }))
   }
   
   render() {
     const { images,isLoading,showModal,largeImageURL } = this.state;
-    console.log(largeImageURL);
+    
     return (
       <div>
-        {showModal && <Modal image={largeImageURL} onClose={ this.toggleModal}/>}
+        {showModal && <Modal image={largeImageURL} onClose={this.toggleModal} />}
         <Searchbar onSubmit={this.onChangeQuery} />
-        {isLoading &&  <Loader/>}
-        <ImageGallery images={images} onOpen={this.toggleModal}/>
-        {images.length >0 && !isLoading &&<Button fetchImages={this.fetchImages}/>}
+        {isLoading && <Loader />}
+        <ImageGallery images={images} onOpen={this.toggleModal} selectedImg={this.selectedImg} />
+        {images.length > 0 && !isLoading && <Button fetchImages={this.fetchImages} />}
         
-        </div>
+      </div>
     )
   }
   
