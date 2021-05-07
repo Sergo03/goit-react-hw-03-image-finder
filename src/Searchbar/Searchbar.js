@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-
-// 20704457-b02886aee8bbd15c3245ed4eb
+import PropTypes from 'prop-types';
 
 class Searchbar extends Component{
 
     state = {
         query: '',
-  
     }
     handleChange = e => {
         this.setState({ query: e.currentTarget.value })
@@ -20,15 +18,15 @@ class Searchbar extends Component{
   
     render() {
       return (
-          <div>
-              <header className="Searchbar">
-                  <form className="SearchForm" onSubmit={this.handleSubmit}>
-                      <button type="submit" className="SearchForm-button">
-                          <span className="SearchForm-button-label">Search</span>
+          <>
+              <header className='Searchbar'>
+                  <form className='SearchForm' onSubmit={this.handleSubmit}>
+                      <button type="submit" className='SearchForm-button'>
+                          <span className='SearchForm-button-label'>Search</span>
                       </button>
 
                       <input
-                          className="SearchForm-input"
+                          className='SearchForm-input'
                           type="text"
                           autoComplete="off"
                           autoFocus
@@ -38,10 +36,12 @@ class Searchbar extends Component{
                       />
                   </form>
               </header>
-           
-            
-          </div>
+          </>
       )
     }
+}
+
+Searchbar.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
 }
 export default Searchbar;

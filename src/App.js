@@ -15,7 +15,8 @@ class App extends Component {
     searchQuery: '',
     isLoading: false,
     selectedImg: '',
-    showModal:false,
+    showModal: false,
+     error: null,
   }
 
 
@@ -40,33 +41,28 @@ class App extends Component {
           {
             images: [...prevState.images, ...res.data.hits],
             currentPage: prevState.currentPage + 1,
-            
           }))
-        
-        // res.data.hits.map(({ largeImageURL }) => this.setState({ largeImageURL: largeImageURL }));
-      }).finally(() => this.setState({ isLoading: false }))
-    
-    // setTimeout(() => {
-    //   window.scrollTo({
-    //     top: document.documentElement.scrollHeight,
-    //     behavior: 'smooth',
-    //   })
-    // }, 800)
+      }).catch(error => this.setState({ error })).finally(() => this.setState({ isLoading: false }))
   }
-  toggleModal = () => {
-    this.setState(state => ({ showModal: !state.showModal, }))
+
+  toggleModal = img => {
+    this.setState(state => ({
+      selectedImg: !state.showModal ? img : '',
+      showModal: !state.showModal,
+    }))
+   
   }
-  
+
   render() {
-    const { images,isLoading,showModal,largeImageURL } = this.state;
-    
+    const { images,isLoading,showModal,selectedImg,error } = this.state;
     return (
       <div>
-        {showModal && <Modal image={largeImageURL} onClose={this.toggleModal} />}
+        {showModal && <Modal selectedImg={selectedImg} onClose={this.toggleModal} />}
         <Searchbar onSubmit={this.onChangeQuery} />
+         {error && <h1 className="Error">Error, please try later</h1>}
         {isLoading && <Loader />}
-        <ImageGallery images={images} onOpen={this.toggleModal} selectedImg={this.selectedImg} />
-        {images.length > 0 && !isLoading && <Button fetchImages={this.fetchImages} />}
+        <ImageGallery images={images} onOpen={this.toggleModal}  />
+        {images.length > 0 && !isLoading && <Button  fetchImages={this.fetchImages}/>}
         
       </div>
     )
