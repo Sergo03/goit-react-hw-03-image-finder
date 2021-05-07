@@ -28,12 +28,12 @@ class Modal extends Component{
     }
 
     render() {
-    
+     
         return createPortal(
             
              <div className={Style.Overlay} onClick={this.handleDropClick}>
                 <div className={Style.Modal}>
-                    <img src='' alt="" />
+                    <img src={this.props.image} alt="" />
                 </div>
             </div>
         ,modalRef,)

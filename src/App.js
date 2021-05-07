@@ -43,7 +43,7 @@ class App extends Component {
             
           }))
         
-     res.data.hits.map(({largeImageURL})=>console.log(largeImageURL));}).finally(() => this.setState({isLoading:false}))
+        res.data.hits.map(({ largeImageURL }) => this.setState({ largeImageURL:largeImageURL}));}).finally(() => this.setState({isLoading:false}))
     
     // setTimeout(() => {
     //   window.scrollTo({
@@ -57,11 +57,11 @@ class App extends Component {
   }
   
   render() {
-    const { images,isLoading,showModal } = this.state;
-    
+    const { images,isLoading,showModal,largeImageURL } = this.state;
+    console.log(largeImageURL);
     return (
       <div>
-        {showModal && <Modal image={images} onClose={ this.toggleModal}/>}
+        {showModal && <Modal image={largeImageURL} onClose={ this.toggleModal}/>}
         <Searchbar onSubmit={this.onChangeQuery} />
         {isLoading &&  <Loader/>}
         <ImageGallery images={images} onOpen={this.toggleModal}/>
