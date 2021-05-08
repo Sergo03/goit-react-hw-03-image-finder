@@ -16,15 +16,22 @@ class App extends Component {
     isLoading: false,
     selectedImg: '',
     showModal: false,
-     error: null,
+    error: null,
+    shouldScroll:false,
   }
 
 
   componentDidUpdate(prevprops,prevState) {
     if (prevState.searchQuery !== this.state.searchQuery) {
       this.fetchImages();
-   }
- }
+    }
+    if (this.state.shouldScroll) {
+      window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: 'smooth',
+      });
+    }
+  }
     
   onChangeQuery = query => {
     this.setState({searchQuery:query,currentPage: 1,images: []})
@@ -50,7 +57,12 @@ class App extends Component {
       selectedImg: !state.showModal ? img : '',
       showModal: !state.showModal,
     }))
-   
+  }
+  onClickButton = () => {
+    this.fetchImages();
+    if (this.state.currentPage > 1) {
+      this.setState({ shouldScroll: true })
+    }
   }
 
   render() {
@@ -59,16 +71,14 @@ class App extends Component {
       <div>
         {showModal && <Modal selectedImg={selectedImg} onClose={this.toggleModal} />}
         <Searchbar onSubmit={this.onChangeQuery} />
-         {error && <h1 className="Error">Error, please try later</h1>}
+        {error && <h1 className="Error">Error, please try later</h1>}
         {isLoading && <Loader />}
         <ImageGallery images={images} onOpen={this.toggleModal}  />
-        {images.length > 0 && !isLoading && <Button  fetchImages={this.fetchImages}/>}
+        {images.length > 0 && !isLoading && <Button   onClick={this.onClickButton}/>}
         
       </div>
     )
   }
   
-
-
 }
 export default App;

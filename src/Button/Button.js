@@ -1,17 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Button = ({fetchImages }) => {
-  window.scrollTo({
-    top: document.documentElement.scrollHeight,
-    behavior: 'smooth',
-  });
+const Button = ({onClick }) => {
     
     return (
         <>
-           <button className='Button' type='button' onClick={fetchImages}   > Load more</button>
+           <button className='Button' type='button' onClick={onClick}   > Load more</button>
         </>
-    )
+  )
+
 }
 Button.propTypes = {
   fetchImages: PropTypes.func.isRequired,
